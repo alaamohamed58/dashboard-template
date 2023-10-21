@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
 import HttpException from "../../utils/http.exceptions";
 import { createToken } from "../../utils/token";
-import UserModel from "../users/users.model";
-import User from "./users.interface";
-import Token from "utils/interfaces/token.interface";
+import UserModel from "../users/user.model";
+import User from "../users/user.interface";
 import generateRandomNumberString from "../../utils/generateCode";
 
 import sendEmail from "../../utils/email";
-class UserService {
+
+class AuthenticationSerive {
   private user = UserModel;
 
   //registration
@@ -125,4 +125,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export default AuthenticationSerive;

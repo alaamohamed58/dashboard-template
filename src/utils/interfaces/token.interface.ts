@@ -1,7 +1,7 @@
-import User from "resources/users/users.interface";
+import UserInterface from "../../resources/users/user.interface";
 
 interface Token {
-  user: User;
+  user: UserInterface;
   expiresIn: number;
 }
 

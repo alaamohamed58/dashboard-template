@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
-import User from "./users.interface";
+import User from "./user.interface";
 
 const UserSchema = new Schema({
   first_name: {

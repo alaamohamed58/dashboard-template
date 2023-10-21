@@ -4,7 +4,10 @@ import express, { Application } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
+
 import Controller from "./utils/interfaces/controller.interface";
+import errorMiddleware from "./middleware/error.middleware";
 
 class App {
   public express: Application;
@@ -17,6 +20,8 @@ class App {
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
     this.initializeDatabase();
+
+    this.initializeErrorHandling();
   }
 
   private initializeMiddlewares(): void {
@@ -25,6 +30,7 @@ class App {
     this.express.use(helmet());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(express.static("public"));
+    this.express.use(cookieParser());
     this.express.use(express.static(path.join(__dirname, "public")));
   }
 
@@ -32,6 +38,10 @@ class App {
     controllers.forEach((controller: Controller) => {
       this.express.use("/api/v1", controller.router);
     });
+  }
+
+  private initializeErrorHandling(): void {
+    this.express.use(errorMiddleware);
   }
 
   private initializeDatabase(): void {
