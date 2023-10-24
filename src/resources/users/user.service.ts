@@ -5,7 +5,7 @@ class UserService {
   private users = userModel;
 
   public async getAllUsers(): Promise<Document[]> {
-    const users = this.users.find();
+    const users = await this.users.find();
 
     return users;
   }
