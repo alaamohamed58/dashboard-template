@@ -1,38 +1,14 @@
 import { Request } from "express";
 import { Document } from "mongoose";
-
 import multer from "multer";
+import { multerStorage, multerFilter } from "../../utils/multer";
 import teamModel from "./team.model";
 import HttpException from "../../utils/http.exceptions";
 import Team from "./team.interface";
 
-interface CustomFile {
-  mimetype: string;
-}
-
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images/team");
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split("/")[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-  },
-});
-
-const multerFilter = (req: Request, file: CustomFile, cb: any) => {
-  if (file.mimetype.startsWith("image")) {
-    cb(null, true);
-  } else {
-    cb(
-      new HttpException("Not an image! Please upload only images.", 400),
-      false
-    );
-  }
-};
-
+const storage = multerStorage("team");
 const upload = multer({
-  storage: multerStorage,
+  storage: storage,
   fileFilter: multerFilter,
 });
 

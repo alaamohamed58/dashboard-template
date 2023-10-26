@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response, Router } from "express";
 import Controller from "../../utils/interfaces/controller.interface";
 import asyncHandler from "../../utils/asyncHandler";
-import TeamService, { uploadTeamPhoto } from "./team.service";
+import LandingService, { uploadLanding } from "./landing.service";
 import protectMiddleware from "../../middleware/protect.middleware";
 
-class TeamController implements Controller {
+class LandingController implements Controller {
   public router = Router();
-  public path = "/team";
+  public path = "/landing";
 
-  private teamService = new TeamService();
+  private landingService = new LandingService();
 
   constructor() {
     this.initializeRouter();
@@ -18,60 +18,64 @@ class TeamController implements Controller {
     this.router.post(
       this.path,
       protectMiddleware,
-      uploadTeamPhoto,
-      this.createTeam
+      uploadLanding,
+      this.createLanding
     );
 
-    this.router.get(this.path, protectMiddleware, this.getTeam);
-    this.router.delete(`${this.path}/:id`, protectMiddleware, this.deleteTeam);
+    this.router.get(this.path, protectMiddleware, this.getLanding);
+    this.router.delete(
+      `${this.path}/:id`,
+      protectMiddleware,
+      this.deleteLanding
+    );
     this.router.patch(
       `${this.path}/:id`,
       protectMiddleware,
-      uploadTeamPhoto,
-      this.updateTeam
+      uploadLanding,
+      this.updateLanding
     );
   }
 
-  private createTeam = asyncHandler(
+  private createLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      const team = await this.teamService.createTeam(req);
+      const landing = await this.landingService.createLanding(req);
 
       res.status(201).json({
         message: "Succesfully created",
         results: {
-          data: team,
+          data: landing,
         },
       });
     }
   );
-  private getTeam = asyncHandler(
+  private getLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      const team = await this.teamService.getTeam();
+      const landing = await this.landingService.getLanding();
 
       res.status(200).json({
         results: {
-          data: team,
+          data: landing,
         },
       });
     }
   );
 
-  private updateTeam = asyncHandler(
+  private updateLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      const team = await this.teamService.updateTeam(req);
+      const landing = await this.landingService.updateLanding(req);
 
       res.status(200).json({
         message: "Succesfully Updated",
         results: {
-          data: team,
+          data: landing,
         },
       });
     }
   );
 
-  private deleteTeam = asyncHandler(
+  private deleteLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      await this.teamService.deleteTeam(req);
+      await this.landingService.deleteLanding(req);
 
       res.status(204).json({
         message: "Succesfully Deleted",
@@ -81,4 +85,4 @@ class TeamController implements Controller {
   );
 }
 
-export default TeamController;
+export default LandingController;
