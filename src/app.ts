@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 
 import Controller from "./utils/interfaces/controller.interface";
 import errorMiddleware from "./middleware/error.middleware";
+import bodyParser from "body-parser";
 
 class App {
   public express: Application;
@@ -28,6 +29,7 @@ class App {
     this.express.use(express.json());
     this.express.use(cors());
     this.express.use(helmet());
+
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(express.static("public"));
     this.express.use(cookieParser());

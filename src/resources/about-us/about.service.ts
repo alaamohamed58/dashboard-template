@@ -19,8 +19,8 @@ class AboutService {
     return about;
   }
 
-  public async deleteAbout(): Promise<void | Error> {
-    const about = await this.about.findByIdAndDelete();
+  public async deleteAbout(req: Request): Promise<void | Error> {
+    const about = await this.about.findByIdAndDelete(req.params.id);
     if (!about) {
       throw new HttpException("there is no document with that id", 404);
     }

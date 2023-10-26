@@ -42,7 +42,7 @@ class AboutController implements Controller {
   });
 
   private deleteAbout = asyncHandler(async (req: Request, res: Response) => {
-    const about = await this.aboutService.deleteAbout();
+    const about = await this.aboutService.deleteAbout(req);
 
     res.status(204).json({
       message: "Succesfully Delete",
