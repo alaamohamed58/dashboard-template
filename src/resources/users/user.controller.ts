@@ -22,6 +22,8 @@ class UserController implements Controller {
     async (req: Request, res: Response, next: NextFunction) => {
       const users = await this.userService.getAllUsers();
 
+      console.log(req.user);
+
       res.status(200).json({
         count: users.length,
         results: {
