@@ -84,6 +84,25 @@ class AuthenticationSerive {
     const accessToken = createToken(existUser);
     return accessToken;
   }
+
+  //resend OTP
+  public async resendOTP(email: string): Promise<void> {
+    const user = await this.user.findOne({ email, activate: false });
+    if (!user) {
+      throw new HttpException("user not exist", 404);
+    }
+    const verificationCode = generateRandomNumberString();
+    user.verification_code = verificationCode;
+    user.verification_code_expires_in = Date.now() + 5 * 60 * 1000;
+    await sendEmail({
+      to: email,
+      subject: "Verification Code",
+      message: `Your verification code is ${verificationCode}, please note that the code will expire in 5 minutes`,
+    });
+
+    await user.save({ validateBeforeSave: false });
+  }
+
   //forgot password
   public async forgotPassword(
     email: string

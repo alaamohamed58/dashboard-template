@@ -47,8 +47,12 @@ class App {
   }
 
   private initializeDatabase(): void {
+    let db = process.env.MONGO_ATLAS?.replace(
+      "<password>",
+      String(process.env.MONGO_PASSWORD)
+    );
     mongoose
-      .connect(String(process.env.MONGO_LOCAL))
+      .connect(String(db))
       .then(() => console.log("Connected To Database"))
       .catch((err) => console.log(err));
   }

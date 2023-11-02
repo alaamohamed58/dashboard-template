@@ -4,7 +4,7 @@ import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 import User from "./user.interface";
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<User>({
   first_name: {
     type: String,
     required: [true, "first name is required"],
@@ -17,9 +17,9 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: [true, "email is required"],
-    trim: true,
+    required: true,
     unique: true,
+    lowercase: true,
   },
   password: {
     type: String,

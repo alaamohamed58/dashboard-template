@@ -28,6 +28,7 @@ class AuthenticationUser implements Controller {
     this.router.post(`${this.path}/forgotPassword`, this.forgetPassword);
     this.router.post(`${this.path}/resetPassword/:token`, this.resetPassword);
     this.router.post(`${this.path}/verify-email`, this.verifyEmail);
+    this.router.post(`${this.path}/resend`, this.resendOTP);
   }
 
   //sign up
@@ -70,6 +71,19 @@ class AuthenticationUser implements Controller {
       res.status(200).json({
         message: "Email Activated successfully",
         accessToken: token,
+      });
+    }
+  );
+
+  //verification code
+  private resendOTP = asyncHandler(
+    async (req: Request, res: Response): Promise<Response | void> => {
+      const { email } = req.body;
+
+      await this.service.resendOTP(email);
+
+      res.status(200).json({
+        message: "OTP sent",
       });
     }
   );
