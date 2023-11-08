@@ -8,6 +8,8 @@ class AboutService {
   private about = aboutModel;
 
   public async createAbout(req: Request): Promise<About> {
+    await this.about.deleteMany();
+
     const about = await this.about.create(req.body);
 
     return about;

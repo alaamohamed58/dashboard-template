@@ -47,8 +47,8 @@ class FactController implements Controller {
 
       res.status(200).json({
         count: allFacts && allFacts.length,
-        data: {
-          facts: allFacts,
+        results: {
+          data: allFacts,
         },
       });
     }
