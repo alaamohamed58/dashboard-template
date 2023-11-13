@@ -21,6 +21,8 @@ class LandingService {
   private landingModel = landingModel;
 
   public async createLanding(req: Request): Promise<Landing> {
+    await this.landingModel.deleteMany();
+
     const landing = await this.landingModel.create({
       heading: req.body.heading,
       text: req.body.text,
@@ -43,7 +45,7 @@ class LandingService {
     }
   }
 
-  public async updateLanding(req: Request): Promise<Landing | Error> {
+  public async updateLanding(req: Request): Promise<Landing> {
     const landing = await this.landingModel.findByIdAndUpdate(
       req.params.id,
       req.body,

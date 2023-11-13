@@ -39,11 +39,20 @@ class LandingController implements Controller {
   private createLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const landing = await this.landingService.createLanding(req);
+      const url = `${req.protocol}://${req.get("host")}/${
+        req.file?.destination
+      }/${req.file?.filename}`;
+
+      landing.imagePath = url;
+
+      await landing.save();
 
       res.status(201).json({
         message: "Succesfully created",
         results: {
-          data: landing,
+          data: {
+            landing,
+          },
         },
       });
     }
@@ -51,7 +60,6 @@ class LandingController implements Controller {
   private getLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const landing = await this.landingService.getLanding();
-
       res.status(200).json({
         results: {
           data: landing,
@@ -63,7 +71,15 @@ class LandingController implements Controller {
   private updateLanding = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const landing = await this.landingService.updateLanding(req);
+      if (req.file) {
+        const url = `${req.protocol}://${req.get("host")}/${
+          req.file?.destination
+        }/${req.file?.filename}`;
 
+        landing.imagePath = url;
+
+        await landing.save();
+      }
       res.status(200).json({
         message: "Succesfully Updated",
         results: {

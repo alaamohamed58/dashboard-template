@@ -27,13 +27,26 @@ class App {
 
   private initializeMiddlewares(): void {
     this.express.use(express.json());
-    this.express.use(cors());
-    this.express.use(helmet());
+    this.express.use(
+      cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+      })
+    );
+    this.express.use(
+      helmet({
+        crossOriginResourcePolicy: false,
+      })
+    );
 
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(express.static("public"));
     this.express.use(cookieParser());
-    this.express.use(express.static(path.join(__dirname, "public")));
+    this.express.use("/public", cors());
+
+    this.express.use("/public", express.static("public"));
+
+    //this.express.use(express.static(path.join(__dirname, "public")));
   }
 
   private initializeControllers(controllers: Controller[]): void {

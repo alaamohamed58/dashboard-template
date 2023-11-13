@@ -7,6 +7,7 @@ import AboutController from "./resources/about-us/about.controller";
 import ServiceController from "./resources/services/services.controller";
 import MessageController from "./resources/messages/message.controller";
 import FactController from "./resources/facts/facts.controller";
+import LandingController from "./resources/landing/landing.controller";
 
 const port = process.env.PORT || 3000;
 
@@ -18,6 +19,7 @@ const app = new App(
     new ServiceController(),
     new MessageController(),
     new FactController(),
+    new LandingController(),
   ],
   Number(port)
 );

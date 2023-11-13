@@ -5,6 +5,7 @@ const landingSchema = new Schema<Landing>({
   heading: String,
   text: String,
   photo: String,
+  imagePath: String,
 });
 
 export default model<Landing>("Landing", landingSchema);
