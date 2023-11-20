@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 import multer from "multer";
 import { multerStorage, multerFilter } from "../../utils/multer";
 import teamModel from "./team.model";
@@ -18,11 +18,18 @@ class TeamService {
   private team = teamModel;
 
   public async createTeam(req: any): Promise<Team> {
-    const team = await this.team.create({
-      photo: req.file.filename,
-      ...req.body,
-    });
-
+    let team: Document<unknown, {}, Team> &
+      Team & {
+        _id: Types.ObjectId;
+      };
+    if (req.file) {
+      team = await this.team.create({
+        photo: req.file.filename,
+        ...req.body,
+      });
+    } else {
+      team = await this.team.create(req.body);
+    }
     return team;
   }
 

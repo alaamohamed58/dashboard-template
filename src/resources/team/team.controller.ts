@@ -18,7 +18,7 @@ class TeamController implements Controller {
     this.router.post(
       this.path,
       protectMiddleware,
-      uploadTeamPhoto,
+    uploadTeamPhoto,
       this.createTeam
     );
 
