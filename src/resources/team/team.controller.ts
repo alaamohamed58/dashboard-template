@@ -35,7 +35,13 @@ class TeamController implements Controller {
   private createTeam = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const team = await this.teamService.createTeam(req);
+      const url = `${req.protocol}://${req.get("host")}/${
+        req.file?.destination
+      }/${req.file?.filename}`;
 
+      team.imagePath = url;
+
+      await team.save();
       res.status(201).json({
         message: "Succesfully created",
         results: {

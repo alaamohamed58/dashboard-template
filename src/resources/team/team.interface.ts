@@ -6,6 +6,8 @@ interface Team extends Document {
   role: string;
   summary: string;
   photo: string;
+  imagePath: String,
+
 }
 
 export default Team;

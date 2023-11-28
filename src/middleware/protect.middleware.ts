@@ -19,6 +19,7 @@ async function protectMiddleware(
   ) {
     accessToken = req.headers.authorization.split(" ")[1];
   } else if (req.cookies["dashboard-jwt"]) {
+    console.log("There is Token in cookies")
     accessToken = req.cookies["dashboard-jwt"];
   }
 

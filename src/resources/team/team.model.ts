@@ -12,6 +12,8 @@ const teamSchema = new Schema({
   role: String,
   summary: String,
   photo: String,
+  imagePath: String,
+
 });
 
 export default model<Team>("Team", teamSchema);
