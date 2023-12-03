@@ -46,7 +46,7 @@ class TeamService {
     }
   }
 
-  public async updateTeam(req: Request): Promise<Team | Error> {
+  public async updateTeam(req: Request): Promise<Team> {
     const team = await this.team.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,

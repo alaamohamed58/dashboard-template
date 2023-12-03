@@ -65,7 +65,15 @@ class TeamController implements Controller {
   private updateTeam = asyncHandler(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const team = await this.teamService.updateTeam(req);
+      if (req.file) {
+        const url = `${req.protocol}://${req.get("host")}/${
+          req.file?.destination
+        }/${req.file?.filename}`;
 
+        team.imagePath = url;
+
+        await team.save();
+      }
       res.status(200).json({
         message: "Succesfully Updated",
         results: {
